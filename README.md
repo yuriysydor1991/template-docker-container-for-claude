@@ -12,6 +12,7 @@ To build the container run:
 
 ## Starting container 
 
+### Multirun container
 To start the container for multiple runs:
 
 ```
@@ -24,6 +25,15 @@ starter-scripts/The.C++.default/The.C++.default.start.sh
 starter-scripts/The.C++.default/The.C++.default.start.sh --volume /your/host/dir/.claude:/home/ubuntu/.claude
 ```
 
+After the first start container with the `The.C++.default.start.sh` script next container runs with the command:
+
+```
+./starter-scripts/The.C++.default/The.C++.default.restart.sh
+```
+
+with no additional parameters.
+
+### Single run container
 For a single container start (with it's deletion after exit) run:
 
 ```
