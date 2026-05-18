@@ -55,10 +55,22 @@ RUN apt install -y libopencv-dev libopencv-dnn-dev libopencv-imgcodecs-dev \
   libopencv-imgproc-dev opencv-data opencv-doc
 
 
-USER ubuntu
+RUN apt install -y nano
+
+ARG UID=1001
+ARG GID=1001
+ARG USERNAME=ubuntu
+ARG USERHOME=/home/${USERNAME}
+
+RUN groupmod -g ${GID} ${USERNAME} && \
+    usermod -u ${UID} -g ${GID} ${USERNAME} && \
+    chown -R ${UID}:${GID} ${USERHOME}
+
 
 # Installing CLAUDE as described 
 # @ https://code.claude.com/docs/en/quickstart#step-4-ask-your-first-question
+
+USER ${USERNAME}
 
 WORKDIR /src/claude
 
@@ -67,7 +79,7 @@ RUN chmod +x install.sh
 RUN ./install.sh
 
 
-WORKDIR /home/ubuntu
+WORKDIR ${USERHOME}
 
 
 CMD ["bash"]
