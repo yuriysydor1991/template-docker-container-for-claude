@@ -57,6 +57,22 @@ RUN apt install -y libopencv-dev libopencv-dnn-dev libopencv-imgcodecs-dev \
 
 RUN apt install -y nano
 
+RUN apt install -y firebird-dev
+RUN apt install -y libsdl3-dev libsdl3-image-dev libsdl3-ttf-dev libgl1-mesa-dev
+
+
+RUN apt install -y libnotify-dev
+RUN apt install -y libgstreamerd-3-dev libgstreamermm-1.0-dev libgstreamer1.0-dev
+WORKDIR /src/wxWidgets
+RUN git clone --branch v3.3.2 https://github.com/wxWidgets/wxWidgets.git wxWidgets
+WORKDIR /src/wxWidgets/wxWidgets
+RUN git submodule update --init
+WORKDIR /src/wxWidgets/
+RUN cmake -S wxWidgets -B wxWidgets-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+RUN cmake --build wxWidgets-build -j$(nproc)
+RUN cmake --install wxWidgets-build --prefix /usr
+
+
 ARG UID=1001
 ARG GID=1001
 ARG USERNAME=ubuntu
@@ -70,6 +86,11 @@ RUN groupmod -g ${GID} ${USERNAME} && \
 # Installing CLAUDE as described 
 # @ https://code.claude.com/docs/en/quickstart#step-4-ask-your-first-question
 
+ARG customClaudeStarter=/usr/bin/claude
+RUN echo -n "#!/bin/bash\n\n" > ${customClaudeStarter}
+RUN echo -n "~/.local/bin/claude\n" >> ${customClaudeStarter}
+RUN chmod +x ${customClaudeStarter}
+
 USER ${USERNAME}
 
 WORKDIR /src/claude
@@ -77,7 +98,6 @@ WORKDIR /src/claude
 RUN wget --continue --read-timeout=10 --tries=25 https://claude.ai/install.sh
 RUN chmod +x install.sh
 RUN ./install.sh
-
 
 WORKDIR ${USERHOME}
 
