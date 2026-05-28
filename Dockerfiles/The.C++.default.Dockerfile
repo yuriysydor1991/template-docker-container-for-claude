@@ -14,6 +14,7 @@ RUN apt install -y flatpak flatpak-builder
 RUN apt install -y clang-tidy
 RUN apt install -y libgtest-dev
 RUN apt install -y libgmock-dev
+RUN apt install -y doxygen graphviz
 
 RUN apt install -y meson
 RUN apt install -y liblog4cpp5-dev
@@ -27,12 +28,15 @@ RUN apt install -y qt6-base-dev qt6-base-dev-tools \
   qml-module-qtquick-controls2 qml-module-qtquick-dialogs \
   qml-module-qtquick-layouts qml-module-qtquick-shapes \
   libqt6quick6 libqt6quickcontrols2-6 libqt6opengl6-dev \
-  libqt6openglwidgets6
+  libqt6openglwidgets6 qt6-webview-dev qml6-module-qtwebview \
+  qt6-webengine-dev libqt6webenginecore6 qt6-webengine-dev-tools \
+  qml6-module-qtquick-controls \
+  qt6-location-dev qt6-positioning-dev \
+  qml6-module-qtlocation qml6-module-qtpositioning
 RUN apt install -y libopengl-dev libgl-dev
-RUN apt install -y qml6-module-qtquick-controls
 
 RUN apt install -y pkg-config libgtkmm-3.0-dev
-RUN apt install -y libgtkmm-4.0-dev
+RUN apt install -y libgtkmm-4.0-dev libwebkitgtk-6.0-dev
 
 RUN apt install -y libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-net-dev
 
@@ -69,7 +73,6 @@ WORKDIR /src/wxWidgets/
 RUN cmake -S wxWidgets -B wxWidgets-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
 RUN cmake --build wxWidgets-build -j$(nproc)
 RUN cmake --install wxWidgets-build --prefix /usr
-
 
 ARG USERNAME=ubuntu
 ARG USERHOME=/home/${USERNAME}
