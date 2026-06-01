@@ -1,6 +1,13 @@
 dockerFilesDir="Dockerfiles"
 
 myDockerfile=${dockerFilesDir}/The.C++.default.Dockerfile
-dockerImageName=the-cxx-default-docker-image
-dockerContainerName=the-cxx-default-docker-container
+
 dockerContainerHostName=the-cxx-default
+
+if [[ ! -z ${CLAUDE_CONTAINER_NAME} ]]
+then
+    dockerContainerHostName="${CLAUDE_CONTAINER_NAME}"
+fi
+
+dockerImageName=${dockerContainerHostName}-docker-image
+dockerContainerName=${dockerContainerHostName}-docker-container
