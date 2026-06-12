@@ -85,6 +85,11 @@ RUN echo -n "#!/bin/bash\n\n" > ${customClaudeStarter}
 RUN echo -n "~/.local/bin/claude\n" >> ${customClaudeStarter}
 RUN chmod +x ${customClaudeStarter}
 
+ARG customUnrestrictedClaudeStarter=/usr/bin/claude-unrestricted
+RUN echo -n "#!/bin/bash\n\n" > ${customUnrestrictedClaudeStarter}
+RUN echo -n "~/.local/bin/claude --permission-mode bypassPermissions\n" >> ${customUnrestrictedClaudeStarter}
+RUN chmod +x ${customUnrestrictedClaudeStarter}
+
 USER ${USERNAME}
 
 
