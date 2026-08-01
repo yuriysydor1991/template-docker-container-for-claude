@@ -6,4 +6,5 @@
 docker run -it \
     --name ${dockerContainerName} \
     --hostname ${dockerContainerHostName} \
+    --cpus=${allowedCores} \
     $@ ${dockerImageName}
