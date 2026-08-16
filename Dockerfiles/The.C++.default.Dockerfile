@@ -74,6 +74,8 @@ RUN cmake -S wxWidgets -B wxWidgets-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INS
 RUN cmake --build wxWidgets-build -j$(nproc)
 RUN cmake --install wxWidgets-build --prefix /usr
 
+RUN apt install -y nlohmann-json3-dev
+
 ARG USERNAME=ubuntu
 ARG USERHOME=/home/${USERNAME}
 
