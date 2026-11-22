@@ -76,6 +76,17 @@ RUN cmake --install wxWidgets-build --prefix /usr
 
 RUN apt install -y nlohmann-json3-dev
 
+# The PlantUML release, headless also with a forwarded DISPLAY
+ARG plantumlVersion=1.2026.9
+
+RUN apt install -y default-jre-headless \
+ && mkdir -p /usr/share/plantuml \
+ && wget --read-timeout=10 --tries=25 -O /usr/share/plantuml/plantuml.jar \
+    https://github.com/plantuml/plantuml/releases/download/v${plantumlVersion}/plantuml-${plantumlVersion}.jar \
+ && printf '#!/bin/sh\nexec java -Djava.awt.headless=true -jar %s "$@"\n' \
+    /usr/share/plantuml/plantuml.jar > /usr/bin/plantuml \
+ && chmod +x /usr/bin/plantuml
+
 ARG USERNAME=ubuntu
 ARG USERHOME=/home/${USERNAME}
 

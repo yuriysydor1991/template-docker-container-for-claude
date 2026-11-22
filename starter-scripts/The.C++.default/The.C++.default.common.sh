@@ -1,7 +1,7 @@
 dockerFilesDir="Dockerfiles"
 
 myDockerfile=${dockerFilesDir}/The.C++.default.Dockerfile
-allowedCores=2
+allowedCores=4
 
 dockerDefaultImageNamePrefix=the-cxx-default
 dockerContainerHostName=${dockerDefaultImageNamePrefix}
